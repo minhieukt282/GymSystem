@@ -1,0 +1,94 @@
+create schema gymSystem;
+use gymSystem;
+
+create table role
+(
+    role_id   int         not null primary key auto_increment,
+    role_name varchar(10) not null
+);
+create table status
+(
+    status_id   int         not null primary key auto_increment,
+    status_name varchar(20) not null
+);
+
+create table account
+(
+    id        int         not null primary key auto_increment,
+    username  varchar(20) not null,
+    password  varchar(20) not null,
+    phone     int(10),
+    role_id   int         not null default 4,
+    foreign key (role_id) references role (role_id),
+    status_id int         not null default 1,
+    foreign key (status_id) references status (status_id)
+);
+
+create table userDetails
+(
+    id        int not null,
+    foreign key (id) references account (id),
+    real_name varchar(20) default 'user',
+    birthday  datetime    default '1995-01-01',
+    start_day datetime    default current_timestamp
+);
+create table product
+(
+    product_id     int         not null primary key auto_increment,
+    product_name   varchar(20) not null,
+    name_by_number int         not null,
+    price          int         not null
+);
+
+create table contract
+(
+    contract_id    int      not null primary key auto_increment,
+    client_name_id int      not null,
+    product_id     int               default 1,
+    sign_day       datetime not null default current_timestamp,
+    foreign key (product_id) references product (product_id)
+);
+
+
+
+insert into product(product_name, name_by_number, price)
+VALUES ('One month', 1, 100);
+insert into product(product_name, name_by_number, price)
+VALUES ('Three months', 3, 290);
+insert into product(product_name, name_by_number, price)
+VALUES ('Six months', 6, 540);
+insert into product(product_name, name_by_number, price)
+VALUES ('One Year', 12, 1000);
+
+insert into role(role_name) value ('admin');
+insert into role(role_name) value ('user');
+
+insert into status(status_name) value ('active');
+insert into status(status_name) value ('inactive');
+
+insert into account(username, password, role_id)
+values ('admin', 1, 1);
+insert into account(username, password, role_id)
+values ('coach', 1, 2);
+insert into account(username, password, role_id)
+values ('lan', 1, 2);
+insert into account(username, password, role_id)
+values ('a', 1, 2);
+insert into account(username, password, role_id)
+values ('c', 1, 2);
+
+insert into userDetails (id, real_name)
+values (3, 'lan');
+insert into userDetails (id, real_name)
+values (4, 'Huong');
+insert into userDetails (id, real_name)
+values (5, 'Ly');
+
+insert into contract(client_name_id, product_id, sign_day)
+VALUES (3, 1, '2022-11-01');
+insert into contract(client_name_id, product_id, sign_day)
+VALUES (4, 3, '2022-11-01');
+insert into contract(client_name_id, product_id, sign_day)
+VALUES (5, 4, '2022-11-01');
+
+
